@@ -147,7 +147,7 @@ function run_Callback(hObject, eventdata, handles)
 % hObject    handle to run (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-addpath('alogrithm');
+addpath('algorithm');
 fileA = get(handles.nordir_edit,'String'); 
 fileB = get(handles.patdir_edit,'String');
 parameters = handles.parameters;

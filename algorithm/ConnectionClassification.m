@@ -1,4 +1,6 @@
 function [ Sen,Spe,ACC] = ConnectionClassification(filenameA,filenameB,p)
+
+addpath('../feature extraction');
 %CONNECTION Summary of this function goes here
 %   Detailed explanation goes here
 load(filenameA)
@@ -11,7 +13,7 @@ Nor=AAL_TC_COBRE_Nor;
 Par=AAL_TC_COBRE_Pat;
 %project label vector->with shape(size,1)
 Label(1:size(Nor,3),1)=1;
-Label(size(Nor,3)+1:size(Par,3)+size(Nor,3))=0;
+Label(size(Nor,3)+1:size(Par,3)+size(Nor,3))=-1;
 
 %for each sample do while
 %feature extraction
@@ -27,9 +29,10 @@ for i=1:size(Par,3)
     SN2=threshold_proportional(N2, p);
     Net(:,:,i+size(Nor,3))=SN2;  
 end
-[Fea]=jb_ConvertNetwork2Vector(Net);
-
-
+[Features]=jb_ConvertNetwork2Vector(Net);
+%[cc_Features] = fea_clustering_coefficient(Net);
+%[Fea] = [Features cc_Features];
+[Fea] = Features;
 size(Fea);
 size(Label);
 for i=1:size(Fea,1)
@@ -39,13 +42,13 @@ for i=1:size(Fea,1)
     pare=['-b 1','-t 0','-c 2'];
     model=svmtrain(Train_label,Train_fea,pare);
     [Y_new, accuracy, score] = svmpredict(Test_label,Test_fea, model,'-b 1');
-    Y_all(i,1)=score(1);
+    %Y_all(i,1)=score(1);
+    Y_all(i,1) = Y_new;
 end
-%ACC=1-(size(find(Y_all~=Label),1)/39);
-%[Sen,Spe,ACC]=jb_SensitivitySpecificity(Y_all,Label)
-Label
-Y_all
-auc = plot_roc(Y_all,Label)
+[Sen,Spe,ACC]=jb_SensitivitySpecificity(Y_all,Label);
+%Label;
+%Y_all;
+%auc = plot_roc(Y_all,Label)
 
 end
 
