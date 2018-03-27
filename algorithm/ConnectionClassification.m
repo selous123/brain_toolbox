@@ -30,7 +30,7 @@ for i=1:size(Par,3)
     Net(:,:,i+size(Nor,3))=SN2;  
 end
 [Features]=jb_ConvertNetwork2Vector(Net);
-%[cc_Features] = fea_clustering_coefficient(Net);
+%[cc_Features] = feature_clustering_coefficient(Net);
 %[Fea] = [Features cc_Features];
 [Fea] = Features;
 size(Fea);
