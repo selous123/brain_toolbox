@@ -21,7 +21,7 @@ for i=1:size(Nor,3)
     X1=Nor(:,:,i);
     N1=corrcoef(X1);
     SN1=threshold_proportional(N1, p);
-    Net(:,:,i)=SN1;   
+    Net(:,:,i)=SN1;
 end
 for i=1:size(Par,3)
     X2=Par(:,:,i);

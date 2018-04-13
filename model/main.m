@@ -11,8 +11,8 @@ fileB = '/home/lrh/program/git/brain_toolbox/data/AAL_TC_COBRE_Pat.mat';
 %%
 %feature extraction
 addpath('../feature extraction/oridimal pattern');
-addpath('../feature extraction/graph kernel');
-%[features] = feature_clustering_coefficient(nets);
+addpath('../feature extraction');
+[features] = feature_clustering_coefficient(nets);
 %[features] = jb_ConvertNetwork2Vector(nets);
 %features with shape[num_samples,num_features]
 
@@ -28,17 +28,16 @@ true_labels = [];
 for i =1:n_splits
     train_labels = labels(indexes{1,i}.train_indexes,:);
     test_labels = labels(indexes{1,i}.test_indexes,:);
-    train_nets = nets(:,:,indexes{1,i}.train_indexes);
-    test_nets = nets(:,:,indexes{1,i}.test_indexes);
+%     train_nets = nets(:,:,indexes{1,i}.train_indexes);
+%     test_nets = nets(:,:,indexes{1,i}.test_indexes);
     
-    %train_feas = features(indexes{1,i}.train_indexes,:);
-    %test_feas = features(indexes{1,i}.test_indexes,:);
-    [train_feas,test_feas] = feature_ordimal_pattern(train_nets,...
-        test_nets,train_labels,test_labels);
-    train_feas
-
-    pare=['-b 1','-t 0','-c 2'];
-    model = svmtrain(train_labels,train_feas,pare);
+    train_feas = features(indexes{1,i}.train_indexes,:);
+    test_feas = features(indexes{1,i}.test_indexes,:);
+%     [train_feas,test_feas] = feature_ordimal_pattern(train_nets,...
+%         test_nets,train_labels,test_labels);
+    C = 2;
+    para =['-b 1,-t 0 -q -c ',num2str(C)];
+    model = svmtrain(train_labels,train_feas,para);
     [Y_new,accuracy,score] = svmpredict(test_labels,test_feas,model,'-b 1');
     predict_labels = [predict_labels;Y_new];
     true_labels = [true_labels;test_labels];

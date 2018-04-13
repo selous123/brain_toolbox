@@ -39,7 +39,7 @@ smc_data = data_struct.conn(:,:,data_struct.target==5);
 %       normal_data:1
 nets = cat(3,normal_data,ad_data);
 labels = -ones(size(normal_data,3)+size(ad_data,3),1);
-labels(1:size(normal_data),1) = 1;
+labels(1:size(normal_data,3),1) = 1;
 
 end
 

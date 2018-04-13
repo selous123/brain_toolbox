@@ -10,7 +10,7 @@ function [features] = recursive_fs_graph_kernel(nets,raw_features,labels,ROIs)
 %       features    :features processed by ttest
 %Author   :ZHANG TAO
 %Data     :2018.4.3
-addpath('../../model');
+addpath('../../model'); 
 num_features = size(raw_features,2);
 position_nets = ROIs;
 nets = nets(position_nets,position_nets,:);
